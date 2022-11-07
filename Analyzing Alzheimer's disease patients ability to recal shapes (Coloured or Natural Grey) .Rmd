@@ -1,0 +1,425 @@
+---
+title: "Untitled"
+output: github_document
+---
+
+### Introduction 
+
+The report is based on task designed to test the ability of participants on some cognitive tasks. The cognitive task will test the recollection of shapes that are either with different type of colours or just neutral grey colour among these participants.
+
+This test involved 90 participants, where 45 are diagnosed with Alzheimer’s disease, and the other 45 have no cognitive impairment. Each participant underwent 100 number of trials for the identification of differently coloured shapes, and neutral grey shapes.
+
+## Objectives of the Report 
+
+The report will achieve its objectives in two parts;
+
+1. Part one will give an understanding of the Dataset.
+
+2. In Part two, statistical hypotheses will be designed and assessed to answer some questions relating to whether or not people diagnosed with Alzheimer (Alzheimer's patients) are worse at the cognitive tasks.
+
+#### Calling needed library
+
+```{r}
+library(psych) 
+```
+
+
+#### Setting the working directory, and importing the data
+
+```{r}
+setwd('~/Desktop/Data World/Portfolio/Alzheimer')
+Alzheimer_data <- read.csv("AlzheimersData.csv", head = TRUE)
+attach(Alzheimer_data) 
+```
+
+### PART 1
+
+#### (1a) Viewing the first 10 rows to visualize number of variables in the data-set
+
+```{r}
+head(Alzheimer_data, 10)
+```
+
+The dataset consists of 6 variables which are;
+Subject: Number list of participants in the task. 
+
+ColourShapeCorrect: List the number of differently coloured shapes identified correctly. 
+
+GreyShapeCorrect: List the number of neutral grey colour shapes identified correctly. 
+
+Gender: A list of the gender of the participants. 
+
+Age: List of ages of the participants. 
+
+AlzheimersDisease: Shows if a participant has Alzheimer (TRUE), or Healthy (FALSE).
+
+
+
+### (1b) Viewing the different datatype in the dataset
+
+```{r}
+str(Alzheimer_data)
+```
+
+### (1c) Summarizing the target variable to see if it is balanced
+
+```{r}
+summary(AlzheimersDisease)
+```
+A balanced dataset is a dataset that contains equal or almost equal number of target variable. The target variable in this case is the classification of the patients into TRUE/FALSE in AlzheimersDisease variable.
+
+Therefore, the dataset is balanced as the AlzheimersDisease variable has the same 45 values for both outcome (TRUE/FALSE) of the target variable.
+
+
+### (1d) Summary statistics of the six variables
+
+```{r}
+describe(Subject)
+describe(ColourShapeCorrect)
+describe(GreyShapeCorrect)
+describe(Age)
+
+table(Gender)
+prop.table(table(Gender))       
+
+table(AlzheimersDisease)
+prop.table(table(AlzheimersDisease))
+
+```
+
+i.	Subject: There are 90 observations which indicate the number of participants. It has the minimum 1, and the maximum 90, which is the first and last participant respectively.
+
+ii.	ColourShapeCorrect: The measure of central tendency shows a mean of 45.73, and median of 45. The closeness of the mean and median shows the data is symmetric, and no outliers in the dataset. The measure of dispersion shows a standard deviation of 16.62 which means that most of the correct trials (68%) are 16.62 within the mean, that is 29.11 – 62.35, at one standard deviation from the mean. The range of the data is 66. The skewness is -0.07 which is close to zero and shows the dataset as being approximately symmetric.
+
+iii.	GreyShapeCorrect: The mean is 73.68, and median is 75, the closeness in these values show there are no outliers in the variable. The standard deviation is 10.58, and this indicates 68% of the correct grey shape identification by the participants are within 63.1 - 84.26 out of the 100 trials. The range is 47, and the data has a skewness of -0.16.
+
+iv.	Age: Variable age has a mean of 67.24, and a median of 66, which again shows there are no outliers in the dataset. The standard deviation is 9.7, meaning majority of the participants (68%) are between 57.54 - 76.94 years old. The range of age is 47, and the skewness is 0.33.
+
+v.	Gender: There are 90 observations with 48 being female approximately (53%), and 42 being male (47%).
+
+vi.	AlzheimersDisease: There are 90 observations with 45 being with Alzheimer Disease (TRUE), and 45 being Healthy (FALSE).
+
+### (1e) Range of ages in the Alzheimer's disease patients and Healthy Controls
+
+```{r}
+Alz_disease <- split(Alzheimer_data, f = AlzheimersDisease)  #splitting the dataset by variable AlzheimersDisease into those with Alzheimer, Alz_disease = TRUE, and Healthy, Alz_disease = FALSE
+head(Alz_disease, 5)
+detach(Alzheimer_data)
+```
+
+##### Getting range for the Alzheimer's Disease patients
+```{r}
+Alzheimer_patients <- Alz_disease$'TRUE'
+head(Alzheimer_patients, 5)
+attach(Alzheimer_patients)
+
+range_Alzheimer_patients <- max(Age) - min(Age)
+range_Alzheimer_patients
+
+detach(Alzheimer_patients)
+```
+For Alzheimer’s Disease patients, the maximum age is 93 and the minimum age is 55. The range for Alzheimer disease patients is 38.
+
+
+#### Getting range for healthy controls
+```{r}
+Healthy_controls <- Alz_disease$'FALSE'
+head(Healthy_controls, 5)
+attach(Healthy_controls)
+
+range_Healthy_controls <- max(Age) - min(Age)
+range_Healthy_controls
+
+detach(Healthy_controls)
+```
+For the healthy controls, the maximum age is 72 and the minimum age is 46. The healthy control group has a range of 26.
+
+
+### (1f) Summary statistics for Alzheimer's Disease and Healthy controls
+
+#### Summary statistics for Alzheimer's Disease
+```{r}
+attach(Alzheimer_patients)
+
+summary(Alzheimer_patients)
+
+detach(Alzheimer_patients)
+```
+
+#### Summary statistics for Healthy controls
+```{r}
+attach(Healthy_controls)
+
+summary(Healthy_controls)
+
+detach(Healthy_controls)
+```
+
+i.	ColourShapeCorrect: For the Alzheimer’s patients, it has a mean of 31.38, and median 31. On average, Alzheimer’s disease patients are only able to identify approximately differently coloured shapes correctly 31 times out of the 100 trials. For the Healthy group, it has a mean of 60.09 and median of 61. On average, the healthy control group were able to identify differently coloured shapes correctly approximately 60 times out of the 100 trials. This shows that the Healthy control group are better at identifying differently coloured shapes.
+
+ii.	GreyShapeCorrect: For Alzheimer’s patients, the mean is 67.11 and median 67. The Alzheimer’s patients identified approximately 67 out of the 100 trials correctly for the Grey shaped. For healthy controls, the grey colour task has a mean of 80.24 and median of 81. For this task also, the healthy controls group still performed better than the Alzheimer’s group.
+The means of the two groups (Alzheimer’s disease and Healthy Controls), for ColourShapeCorrect and GreyShapeCorrect indicate that both groups did better in identifying Grey Shape than different coloured shapes.
+
+iii.	Age: The mean age of the Alzheimer disease patients is 73.84, and median is 74. The mean of the age for the healthy control group is 60.64, and median is 59. This shows that older people are more at risk of having Alzheimer’s disease. The range indicates maximum age of 93, and minimum age of 55 for the Alzheimer’s group which gives a range of 38. 
+Healthy control group has maximum of 72 and minimum of 46, with range of 26. This further shows that older people are more prone to the disease. The two groups age skewness tend toward symmetric, and kurtosis being light tailed.
+
+iv.	Gender: Out of the 45 Alzheimer patients, 25 are female (56%), and 20 are male (44%). Of the 45 healthy controls, 23 are female (51%), and 22 are male (49%). We have more female in both group, this is because there are more female participants in the tasks (48 female, to 42 male).
+
+
+
+
+### PART 2
+
+In this part, the designing and assessment of hypotheses on the data is done using test(s) for differences. The hypotheses relate to whether Alzheimer’s patients are worse at the cognitive tasks or not. In other to reach a conclusion we considered the Age, Gender, correct identification of the cognitive tasks (differently coloured shape and neutral grey shape). The following analysis were done to reach a conclusion;
+
+i. Are there differences in age or gender between the Alzheimer’s disease group and the healthy control group?
+
+ii. Is there a correlation between gender and/or age and number of correct trials for either/both tasks? How would this effect your analysis?
+
+iii. Can linear regression be used to discount the effect of gender and/or age if such correlations exist?
+
+iv. What statistical test for differences should be used (and on which parts of the data) to address your hypothesis?
+
+#### (2i)	Test for Differences in Age or Gender Between the Alzheimer’s Disease and Healthy Control Group 
+
+##### Firstly, test for normality and visualization is done for Age 
+```{r}
+attach(Alzheimer_data)
+
+par(mfrow=c(1,2))
+qqnorm(Age, main = "Normal Q-Q plot for Age")
+qqline(Age, lwd = 2, col = "brown")
+
+hist(Age, freq = FALSE, xlab = "Age", ylab = "Density", main = "Histogram of Age")
+lines(density(Age), col = "brown", lwd = 2)
+``` 
+
+Figure 1: Q-Q plot, and Histogram show the dataset is normally distributed
+
+
+#### Carrying out a Kolmogorov-Smirnov test to ascertain the normality and know the test to use
+```{r} 
+shapiro.test(Age)
+``` 
+
+The Shapiro test is p = 0.2144, which is > alpha = 0.05. We accept the null hypothesis that implies that the distribution of the data is not significantly different from normal distribution. Therefore, we can assume the normality, and go for a Parametric test.
+
+#### (2ia) 	Test for the difference in Age between the Alzheimer’s disease group, and the healthy control group.
+
+The two-sided hypothesis is stated below:
+Ho: 	There is no statistical significance difference between the average age of the two groups
+H1: 	There is evidence that the average age of the two groups differ significantly
+
+```{r}
+Alzheimer_split_data <- split(Alzheimer_data, f = AlzheimersDisease)
+Alzheimer_split_data
+
+Alzheimer_disease_group <- Alzheimer_split_data$'TRUE'
+head(Alzheimer_disease_group, 5)
+
+Healthy_control_group <- Alzheimer_split_data$'FALSE'
+head(Healthy_control_group, 5)
+
+test_Age <- t.test(Alzheimer_disease_group$Age, Healthy_control_group$Age, paired = FALSE)
+test_Age
+```
+After using the t-test, at alpha = 0.05, that is 95% confidence interval, the p-value = 2.021e-13. This is less than 0.05, and it is statistically significant. Therefore, we reject the null hypothesis, and conclude that there is evidence that the average age of the two groups differ significantly.
+
+
+##### Further test to determine which group is younger
+```{r}
+t.test(Alzheimer_disease_group$Age, Healthy_control_group$Age, paired = FALSE, alternative = "less")
+```
+At alpha = 0.05, the p-value = 1, we can reject the null hypothesis, and conclude that the Healthy control group are younger. Figure 2, from this we can visualize that the Alzheimer patients are older than the healthy controls group.
+
+
+##### Visualizing the Age by group
+```{r}
+boxplot(Alzheimer_disease_group$Age, Healthy_control_group$Age, 
+        main = "Group by Age", names = c("Alzheimer Patients", "Healthy Controls"), 
+        col = c("yellow", "green"))
+```
+
+Figure 2: Visualization of Age by the two groups
+
+
+
+#### (2ib)	The second test is to test for difference in Gender between the Alzheimer’s disease group and the healthy control group. The two-sided hypothesis is stated below:
+Ho:	There is no significant difference between the gender of the two groups
+H1:	There is difference between the gender of the two groups
+
+Method:
+Two independent sample t-test can’t be used for gender as it is a categorical data, instead a chi-square test of difference is used to test the relationship between the categorical data – gender of the Alzheimer’s disease group, and gender of the healthy control group.
+
+```{r}
+test_Gender <- chisq.test(Alzheimer_disease_group$Gender, Healthy_control_group$Gender)
+test_Gender
+```
+The p-value = 0.8676, since p-value > 0.05, we accept the null hypothesis and conclude that there is no evidence of statistically significant difference between the gender of the two groups (Alzheimer’s and Healthy control).
+
+
+#### (2ii) Checking for correlation between Age/Gender and the number of correct trials in the tasks 
+
+##### (2iia) Pearson Correlation between Gender and number of correct trials
+Ho: There is no correlation between Gender and number of correct trials for Colour Shape or Neutral Grey shape
+
+H1: There is a correlation between Gender and number of correct trials for Colour shape or Neutral Grey shape
+```{r}
+Gender_category <- ifelse(Gender == "male", 1, 0)
+
+cor.test(Gender_category, ColourShapeCorrect)
+```
+With a Pearson correlation of 0.043, and p-value = 0.684 at 95% confidence interval, we can accept the null hypothesis, and conclude that there is no statistically significant relationship between gender and identification of the correct coloured shapes. That is, the gender of the participants does not have a significant effect on the outcome of the coloured shape task.
+
+```{r}
+cor.test(Gender_category, GreyShapeCorrect)
+```
+Also, With low negative Pearson’s correlation of -0.011, and p-value = 0.914 at 95 confidence intervals, we accept null hypothesis, and conclude that there is no statistically significant relationship between Gender and number of correct trials for Grey Shapes. Which means, the gender of the participants does not have a significant effect on the outcome of the grey shape task.
+
+
+##### (2iib) Correlation Between Age and Number of Correct Trials for the two tasks:
+
+Ho: There is no correlation between Age and number of correct trials for Colour Shape Correct or Neutral Grey shape
+
+H1: There is a correlation between Age and number of correct Colour shape trials r Neutral Grey shape
+
+```{r}
+cor.test(Age, ColourShapeCorrect)
+```
+At a strong negative Pearson correlation of -0.889, and a significant p-value < 2.2e-16, with 95% confidence interval, we reject the null hypothesis. We conclude that there is a statistically significant correlation between Age and number of correct trials for the colour shape trials. That means, the age of the participants has an effect on their ability to correctly identify the coloured shape tasks.
+
+
+```{r}
+cor.test(Age, GreyShapeCorrect)
+```
+Also, the Correlation coefficient of -0.892, and p-value < 2.2e-16 at 95% confidence interval. We can reject the null hypothesis, and conclude that there is a statistically significant correlation between Age and number of correct trials for the Grey Shape trials. That is, there is a relationship between how old the participants are, and their abilities to correctly identify the grey shapes.
+
+##### Visualizaing these relationships between particpants' Age and ability to recognize either Colour shape or Nutral Grey shape correctly
+```{r}
+par(mfrow=c(1,2))
+plot(Age, ColourShapeCorrect, main = "Colour Shape and Age", col = "brown", ylim = c(0, 100)) 
+plot(Age, GreyShapeCorrect, main = "Grey Shape and Age", col = "brown", ylim = c(0, 100))
+```
+
+Figure 3: We can conclude from this that as age increases, the ability to recognize either the Colour shape or Grey shape correctly reduces (negative correlation).
+
+
+
+#### (2iii) Using linear regression to discount the effect of Age
+
+##### Effect of Age on ColourShapeCorrect
+```{r}
+plot(Age, ColourShapeCorrect, main = "ColourShape & Age", col = "blue", ylim = c(0,100))
+abline(lm(ColourShapeCorrect ~ Age))
+
+reg_ColourShape <- lm(ColourShapeCorrect ~ Age) 
+summary(reg_ColourShape)
+```
+
+The slope is -1.52, meaning when age increases by 1, the ability to identify the correct colour shape reduces by -1.52.  
+
+###### Effect of Age on GreyShapeCorrect
+```{r}
+plot(Age, GreyShapeCorrect, main = "GreyShape & Age", col = "blue", ylim = c(0,100))
+abline(lm(GreyShapeCorrect ~ Age))
+
+reg_GreyShape <- lm(GreyShapeCorrect ~ Age)
+summary(reg_GreyShape) 
+```
+
+Slope at -0.97 means identification of Grey Shape correctly reduces by -0.97 as the age increases by 1. 
+
+
+
+#### (2iv) Testing for difference in the cognitive tasks (Coloured & Grey) for the two groups
+
+
+```{r}
+head(Alzheimer_disease_group, 5)
+head(Healthy_control_group, 5)
+```
+
+###### Testing for difference in the ColouredShape tasks for the two groups
+```{r} 
+t.test(Alzheimer_disease_group$ColourShapeCorrect, 
+       Healthy_control_group$ColourShapeCorrect, paired = FALSE)
+```
+At alpha = 0.05, the p-value for the independent t-test for difference in ColourShapeCorrect of the Alzheimer’s disease group and the Healthy control group is p-value < 2.2e-16, therefore we reject the null hypothesis. We conclude that there is evidence that on average, there is statistically significance difference between the performance of the Alzheimer patients, and the healthy control in the Colour Shape identification.
+
+
+###### Further test to determine which group performed better in the Colour Shape tasks
+
+We test further to find out which group performed better, using a one-sided test, we have the hypothesis given; Ho: Alzheimer patients’ performance is greater than or equal to the healthy controls in the ColouredShape tasks 
+H1: Alzheimer patients’ performance is less than the healthy controls in the cognitive tasks
+```{r}
+t.test(Alzheimer_disease_group$ColourShapeCorrect, 
+       Healthy_control_group$ColourShapeCorrect, paired = FALSE, alternative = "less")
+```
+With a p-value < 2.2e-16 at alpha = 0.05, we therefore reject the null hypothesis, and conclude that the Healthy controls group performed better in the Coloured Shape tasks. Figure 5 shows that the Healthy controls group have more correct trials (higher median) in the Colour Shape Tasks.
+
+
+###### Visualizing the performance in the ColourShape tasks
+```{r}
+boxplot(Alzheimer_disease_group$ColourShapeCorrect, Healthy_control_group$ColourShapeCorrect, 
+        main = "ColourShape Tasks", names = c("Alzheimer Patients", "Healthy Controls"), 
+        col = c("yellow", "green"))
+```
+
+Figure 5: Performance of the two groups in identifying Coloured Shape Tasks
+
+
+###### Testing for difference in Neutal GreyShape tasks for the two groups
+
+```{r}
+t.test(Alzheimer_disease_group$GreyShapeCorrect, 
+       Healthy_control_group$GreyShapeCorrect, paired = FALSE)
+```
+At alpha = 0.05, the p-value for the difference in the GreyShapeCorrect for the two groups is p-value = 5.079e-11, the null hypothesis is rejected. It can be concluded that there is significant difference between performance of the Alzheimer patients and the healthy controls in the Grey Shape tasks.
+
+
+####### Further test to determine which group performed better in the Grey Shape tasks
+We can test further to determine which group performed better in the Grey Shape tasks using a one-sided. The hypothesis given as: 
+
+Ho: Alzheimer patients’ performance is greater than or equal to the healthy controls in the cognitive tasks.
+H1: Alzheimer patients’ performance is less than the healthy controls in the cognitive tasks
+
+```{r}
+t.test(Alzheimer_disease_group$GreyShapeCorrect, 
+       Healthy_control_group$GreyShapeCorrect, paired = FALSE, alternative = "less")
+```
+
+
+####### Visualizing the performance in Neutral GreyShape tasks
+```{r}
+boxplot(Alzheimer_disease_group$GreyShapeCorrect, Healthy_control_group$GreyShapeCorrect, 
+        main = "GreyShape Tasks", names = c("Alzheimer Patients", "Healthy Controls"), 
+        col = c("grey", "brown"))
+```
+
+Figure 6: Performance of the two groups in identifying Neutal Grey Shape Tasks
+
+```{r}
+detach(Alzheimer_data)
+```
+
+
+
+## Summary Findings and Discussion:
+
+From the report, we investigated whether or not Alzheimer’s patients are worse at cognitive tasks (identifying differently coloured shapes and neutral grey shapes). This report considered 90 participants, 45 with Alzheimer, and 45 healthy. In the analysis, we considered whether there is difference in the Age or Gender of the two groups. It was found out that;
+
+i)    there is significant difference in average age of the two groups. That is, the older you are, the more likely you are to have Alzheimer. Gender, on the other hand, does not play a statistically significant role in the difference between the two groups.
+
+ii)   Furthermore, it was discovered that there is a relationship between Age and the number of correct trials in both tasks among the participants. Younger participants tend to perform better in the cognitive tasks. However, the gender of the participants has no significant correlation with their performance in the tasks. 
+
+iii)    Linear regression was plotted to predict the outcome of the tasks with age being the independent variable due to the relationship it has in the outcome of the tasks. Test of differences were also done to determine which group performed better at the cognitive tasks, and it was discovered that the Healthy patients performed better at both tasks.
+
+iv)   It is also important to note that, both groups (Alzheimer’s disease patients and Healthy Controls), performed better in the Grey Shape tasks than in the coloured Shape tasks. That is, Alzheimer’s disease patients are better at recalling neutral grey shapes than differently coloured shapes.
+
+
+## Conclusion:
+
+From the findings, we can deduce that age plays a significant role in whether participants have Alzheimer or not, as the average age of the Alzheimer’s disease group is higher than that of the Healthy Control groups. However, gender does not significantly indicate which group the participants belong. Also, age have significant relationship with the outcome of both cognitive tasks (identifying differently coloured shapes and neutral grey shapes correctly), whereas the gender (either male or female), does not significantly determine the outcome of the tasks for any of the group. Additionally, the age of the participant is a good predictor of the outcome of the cognitive task as it can be seen from the linear regression equation. 
+
+Lastly, the healthy control group performed better in both cognitive tasks (identification of differently coloured shapes and neutral grey shapes) than the Alzheimer’s disease group. We can conclude that Alzheimer’s disease significantly affects the ability of participants to correctly identify both differently coloured shapes, and neutral grey shapes.
+
