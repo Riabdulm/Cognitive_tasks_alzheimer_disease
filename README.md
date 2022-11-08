@@ -25,3 +25,6 @@ The report will achieve its objectives in two parts;
     answer some questions relating to whether or not people diagnosed
     with Alzheimer (Alzheimer’s patients) are worse at the cognitive
     tasks.
+
+
+## The results of the analysis can be found ----> https://github.com/Riabdulm/Cognitive_tasks_alzheimer_disease/blob/3531510ff99641d74d8892104c8f623882cc4d1b/Analyzing-Alzheimer-s-disease-patients-ability-to-recal-shapes--Coloured-or-Natural-Grey--.md
