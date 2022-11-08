@@ -520,10 +520,9 @@ assume the normality, and go for a Parametric test.
 
 #### (2ia) Test for the difference in Age between the Alzheimer’s disease group, and the healthy control group.
 
-The two-sided hypothesis is stated below: Ho: There is no statistical
-significance difference between the average age of the two groups H1:
-There is evidence that the average age of the two groups differ
-significantly
+The two-sided hypothesis is stated below: 
+Ho: There is no statistical significance difference between the average age of the two groups 
+H1: There is evidence that the average age of the two groups differ significantly
 
 ``` r
 Alzheimer_split_data <- split(Alzheimer_data, f = AlzheimersDisease)
@@ -710,8 +709,8 @@ Figure 2: Visualization of Age by the two groups
 
 #### (2ib) The second test is to test for difference in Gender between the Alzheimer’s disease group and the healthy control group. The two-sided hypothesis is stated below:
 
-Ho: There is no significant difference between the gender of the two
-groups H1: There is difference between the gender of the two groups
+Ho: There is no significant difference between the gender of the two groups 
+H1: There is difference between the gender of the two groups
 
 Method: Two independent sample t-test can’t be used for gender as it is
 a categorical data, instead a chi-square test of difference is used to
@@ -738,11 +737,8 @@ and Healthy control).
 
 ##### (2iia) Pearson Correlation between Gender and number of correct trials
 
-Ho: There is no correlation between Gender and number of correct trials
-for Colour Shape or Neutral Grey shape
-
-H1: There is a correlation between Gender and number of correct trials
-for Colour shape or Neutral Grey shape
+Ho: There is no correlation between Gender and number of correct trials for Colour Shape or Neutral Grey shape
+H1: There is a correlation between Gender and number of correct trials for Colour shape or Neutral Grey shape
 
 ``` r
 Gender_category <- ifelse(Gender == "male", 1, 0)
@@ -794,11 +790,8 @@ outcome of the grey shape task.
 
 ##### (2iib) Correlation Between Age and Number of Correct Trials for the two tasks:
 
-Ho: There is no correlation between Age and number of correct trials for
-Colour Shape Correct or Neutral Grey shape
-
-H1: There is a correlation between Age and number of correct Colour
-shape trials r Neutral Grey shape
+Ho: There is no correlation between Age and number of correct trials for Colour Shape Correct or Neutral Grey shape
+H1: There is a correlation between Age and number of correct Colour shape trials r Neutral Grey shape
 
 ``` r
 cor.test(Age, ColourShapeCorrect)
@@ -1059,9 +1052,8 @@ in the Grey Shape tasks.
 We can test further to determine which group performed better in the
 Grey Shape tasks using a one-sided. The hypothesis given as:
 
-Ho: Alzheimer patients’ performance is greater than or equal to the
-healthy controls in the cognitive tasks. H1: Alzheimer patients’
-performance is less than the healthy controls in the cognitive tasks
+Ho: Alzheimer patients’ performance is greater than or equal to the healthy controls in the cognitive tasks. 
+H1: Alzheimer patients’ performance is less than the healthy controls in the cognitive tasks
 
 ``` r
 t.test(Alzheimer_disease_group$GreyShapeCorrect, 
