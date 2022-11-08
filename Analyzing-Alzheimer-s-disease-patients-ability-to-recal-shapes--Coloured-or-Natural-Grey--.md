@@ -1,4 +1,4 @@
-Cognitive tasks to analyse the ability of Alzheimer's patients in recalling shapes (differently coloured or natural grey shapes). 
+Cognitive tasks to analyse the ability of Alzheimer's patients in recalling differently coloured shapes or natural grey shapes using RStudio. 
 ================
 
 ### Introduction
