@@ -1,4 +1,4 @@
-# Cognitive_tasks_alzheimer_disease
+# Effects of Alzheimer Disease on Recollection
 Analyzing Alzheimer's Disease Patients and their ability to recall shapes (Coloured or natural grey) using RStudio.
 
 
