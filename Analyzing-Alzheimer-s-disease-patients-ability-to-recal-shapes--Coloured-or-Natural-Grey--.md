@@ -1,5 +1,4 @@
-Cognitive tasks to test the ability of Alzheimer's patients in recalling shapes (differently coloured or natural grey shapes). 
-Analysing the ability of Alzheimer's Disease patients to recall differetly coloured shapes as opposed to Natural Grey colour shapes when compared with Healthy people.
+Cognitive tasks to analyse the ability of Alzheimer's patients in recalling shapes (differently coloured or natural grey shapes). 
 ================
 
 ### Introduction
